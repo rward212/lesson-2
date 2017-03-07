@@ -2,24 +2,11 @@ def test_method
   prompt("Hello")
 end
 
-VALID_CHOICES = ["r", "paper", "scissors", "spock", "lizard"]
-=begin
-def display_result(player, computer)
-    if (player == "rock" && computer  == "scissors") ||
-       (player == "paper" && computer  == "rock") ||
-       (player == "scissors" && computer == "paper")
-      prompt("You won.")
-    elsif (player == "rock" && computer  == "paper") ||
-          (player == "paper" && computer  == "scissors") ||
-          (player == "scissors" && computer  == "rock")
-      prompt("You lose! LOL!")
-    else
-      prompt("It's a draw!")
-    end
-end
-=end
+user = []
+comp = [] 
 
-# test_method
+
+VALID_CHOICES = ["r", "paper", "scissors", "spock", "lizard"]
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -40,9 +27,9 @@ end
 
 def score(player, computer)
   if win?(player, computer)
-    user += 1
+    user << 1
   else win?(computer, player)
-    comp += 1
+    comp << 1
   end
 end
 
@@ -56,9 +43,6 @@ def display_result(player, computer)
     prompt("It's a tie!")
   end
 end
-
-user = 0
-comp = 0 
 
 loop do 
   5.times  do
@@ -79,8 +63,8 @@ loop do
     prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
 
     display_result(choice, computer_choice)
-  score(choice, computer_choice)
-  prompt("User: #{user}, Computer: #{comp}")  
+    score(choice, computer_choice)
+    prompt("User: #{user.count}, Computer: #{comp.count}")  
   end
     prompt("Do you want to play again?")
   answer = Kernel.gets().chomp()
