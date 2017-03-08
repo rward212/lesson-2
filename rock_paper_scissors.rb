@@ -1,12 +1,6 @@
-def test_method
-  prompt("Hello")
-end
-
-user = []
-comp = [] 
-
-
 VALID_CHOICES = ["r", "paper", "scissors", "spock", "lizard"]
+user_score = 0
+computer_score = 0
 
 def prompt(message)
   Kernel.puts("=> #{message}")
@@ -25,15 +19,6 @@ def win?(first, second)
     (first == "spock" && second == "r")
 end
 
-def score(player, computer)
-  if win?(player, computer)
-    user << 1
-  else win?(computer, player)
-    comp << 1
-  end
-end
-
-
 def display_result(player, computer)
   if win?(player, computer)
     prompt("You won!")
@@ -44,31 +29,43 @@ def display_result(player, computer)
   end
 end
 
-loop do 
-  5.times  do
+#actual program
+
+prompt("Welcome to #{VALID_CHOICES.join(', ')}!")
+loop do
+  until user_score == 5 || computer_score == 5
     choice = ''
+    computer_choice = VALID_CHOICES.sample
+
     loop do
       prompt("Choose one: #{VALID_CHOICES.join(', ')}")
       choice = Kernel.gets().chomp()
 
-      if VALID_CHOICES.include?(choice)
-        break
-      else
-        prompt("That's not a valid choice.")
-      end
+        if VALID_CHOICES.include?(choice)
+          break
+        else
+          prompt("That's not a valid choice.")
+        end
     end
 
-    computer_choice = ["r", "paper", "scissors", "spock", "lizard"].sample
-
     prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
-
     display_result(choice, computer_choice)
-    score(choice, computer_choice)
-    prompt("User: #{user.count}, Computer: #{comp.count}")  
+      
+      if win?(choice, computer_choice)
+       user_score += 1
+      else win?(computer_choice, choice)
+       computer_score += 1
+      end
+    prompt("User: #{user_score}, Computer: #{computer_score}")  
   end
-    prompt("Do you want to play again?")
-  answer = Kernel.gets().chomp()
-  break unless answer.downcase.start_with?("y")
-end
 
-prompt("So long sucka!")
+  prompt("Do you want to play again?")
+  answer = Kernel.gets().chomp()
+  if answer.downcase.include?("n")
+    break
+  else
+    user_score = 0
+    computer_score = 0
+  end
+end
+prompt("Thank you for playing!")
